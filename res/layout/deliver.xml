@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sellAction"
-                android:id="@+id/saleButton"
+                android:id="@+id/deliverButton"
                 android:layout_column="1"/>
         </TableRow>
     </TableLayout>

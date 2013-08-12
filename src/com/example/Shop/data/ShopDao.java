@@ -1,6 +1,7 @@
 package com.example.Shop.data;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -8,9 +9,15 @@ import java.util.List;
  * Date: 03.08.13
  */
 public interface ShopDao {
-    List<Product> getProducts();
+    final String DIRECTORY_PARAM_NAME = "dir";
 
-    void sellProduct(Product product);
+    Set<Product> getProducts();
 
-    void buyProduct(Product product, int quantity);
+    void deliverProduct(Product product);
+
+    void buyProduct(Product product);
+
+    void initialize(Map<String, Object> params);
+
+    void terminate();
 }

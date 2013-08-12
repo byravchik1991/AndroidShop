@@ -1,9 +1,10 @@
 package com.example.Shop.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,34 +12,46 @@ import java.util.List;
  * Date: 30.07.13
  */
 public class Shop implements Serializable {
-    private List<Product> products = Collections.synchronizedList(new ArrayList<Product>());
+    private Set<Product> productSet = Collections.newSetFromMap(new ConcurrentHashMap<Product, Boolean>());
 
-    public List<Product> getProducts() {
-        return products;
+    public Set<Product> getProducts() {
+        return productSet;
     }
 
-    public void addProduct(Product product) {
-        assert product.getQuantity() > 0;
+    public void setProducts(Set<Product> productSet) {
+        this.productSet = productSet;
+    }
 
-        if (!products.contains(product)) {
-            products.add(product);
+    public void addProduct(Product newProduct) {
+        assert newProduct.getQuantity() > 0;
+
+        if (productSet.contains(newProduct)) {
+            for (Product product : productSet) {
+                if (product.equals(newProduct)) {
+                    product.setQuantity(product.getQuantity() + newProduct.getQuantity());
+                }
+            }
 
         } else {
-            Product oldProduct = products.get(products.indexOf(product));
-            oldProduct.setQuantity(product.getQuantity() + oldProduct.getQuantity());
+            productSet.add(newProduct);
         }
     }
 
-    public void removeProduct(Product product, int quantity) {
-        assert product.getQuantity() > 0;
+    public void removeProduct(Product productToRemove) {
+        assert productToRemove.getQuantity() > 0;
 
-        if (products.contains(product)) {
-            final int newQuantity = product.getQuantity() - quantity;
+        if (productSet.contains(productToRemove)) {
+            for (Product product : new HashSet<Product>(productSet)) {
+                if (product.equals(productToRemove)) {
+                    final int newQuantity = product.getQuantity() - productToRemove.getQuantity();
 
-            if (newQuantity > 0) {
-                product.setQuantity(newQuantity);
-            } else {
-                products.remove(product);
+                    if (newQuantity > 0) {
+                        product.setQuantity(newQuantity);
+
+                    } else {
+                        productSet.remove(product);
+                    }
+                }
             }
         }
     }

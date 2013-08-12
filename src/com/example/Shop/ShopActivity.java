@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import com.example.Shop.data.ShopDao;
+import com.example.Shop.data.ShopDaoFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShopActivity extends FragmentActivity {
     private static Context shopContext;
@@ -23,6 +28,17 @@ public class ShopActivity extends FragmentActivity {
         initActionBar();
 
         shopContext = this;
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(ShopDao.DIRECTORY_PARAM_NAME, getFilesDir().getAbsolutePath());
+        ShopDaoFactory.getShopDao().initialize(params);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ShopDaoFactory.getShopDao().terminate();
+        shopContext = null;
     }
 
     private void initViewPager() {

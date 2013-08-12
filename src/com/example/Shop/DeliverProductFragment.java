@@ -1,5 +1,6 @@
 package com.example.Shop;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputFilter;
@@ -12,19 +13,26 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import com.example.Shop.data.Product;
 import com.example.Shop.data.ProductType;
-import com.example.Shop.data.ShopDaoImpl;
+import com.example.Shop.data.ShopDaoFactory;
+import com.example.Shop.data.ShopDataChangedListener;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Иришка
  * Date: 01.08.13
  */
-public class SaleFragment extends Fragment {
+public class DeliverProductFragment extends Fragment {
     private EditText nameEditText;
     private Spinner productTypeSpinner;
     private EditText priceEditText;
     private EditText quantityEditText;
-    private Button saleButton;
+    private Button deliverButton;
+
+    private ShopDataChangedListener listener;
+
+    public DeliverProductFragment(ShopDataChangedListener listener) {
+        this.listener = listener;
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -48,8 +56,8 @@ public class SaleFragment extends Fragment {
         quantityEditText = (EditText) getActivity().findViewById(R.id.quantityEditText);
         quantityEditText.setFilters(new InputFilter[]{new InputFilterMinMax(1)});
 
-        saleButton = (Button) getActivity().findViewById(R.id.saleButton);
-        saleButton.setOnClickListener(new View.OnClickListener() {
+        deliverButton = (Button) getActivity().findViewById(R.id.deliverButton);
+        deliverButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean correct = checkEditText(nameEditText);
                 correct &= checkEditText(priceEditText);
@@ -62,11 +70,10 @@ public class SaleFragment extends Fragment {
                     final int quantity = Integer.parseInt(quantityEditText.getText().toString());
 
                     final Product newProduct = new Product(name, type, price, quantity);
-                    ShopDaoImpl.getInstance().sellProduct(newProduct);
 
-                    nameEditText.setText("");
-                    priceEditText.setText("");
-                    quantityEditText.setText("");
+                    new DeliverProductTask().execute(newProduct);
+
+                    clearFragment();
                 }
             }
         });
@@ -76,7 +83,7 @@ public class SaleFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.sale, container, false);
+        return inflater.inflate(R.layout.deliver, container, false);
     }
 
     private boolean checkEditText(EditText editText) {
@@ -90,5 +97,37 @@ public class SaleFragment extends Fragment {
         }
 
         return correct;
+    }
+
+    private void clearFragment() {
+        nameEditText.setText("");
+        priceEditText.setText("");
+        quantityEditText.setText("");
+    }
+
+    private class DeliverProductTask extends AsyncTask<Product, Object, Object> {
+        private static final long DELAY = 5000;
+
+        @Override
+        protected Object doInBackground(Product... params) {
+            try {
+                Thread.sleep(DELAY);
+                ShopDaoFactory.getShopDao().deliverProduct(params[0]);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            if (listener != null) {
+                listener.dataChanged();
+            }
+        }
     }
 }

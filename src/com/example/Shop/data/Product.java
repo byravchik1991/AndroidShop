@@ -76,6 +76,4 @@ public class Product implements Serializable {
         result = 31 * result + price;
         return result;
     }
-
-
 }

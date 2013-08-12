@@ -11,8 +11,8 @@
     <string name="price">Цена (руб.):</string>
     <string name="quantity">Количество:</string>
     <string name="buy">Покупка</string>
-    <string name="sale">Продажа</string>
-    <string name="sellAction">Продать</string>
+    <string name="sale">Поставка</string>
+    <string name="sellAction">Поставить</string>
     <string name="buyAction">Купить</string>
     <string name="cancel">Отмена</string>
     <string name="fill_correct">Заполните это поле</string>

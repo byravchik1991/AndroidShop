@@ -64,20 +64,9 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 
         nameTextView.setText(getItem(position).getName());
         typeTextView.setText(getItem(position).getType().toString());
-        priceTextView.setText(/*getPriceString(getItem(position).getPrice())*/String.valueOf(getItem(position).getPrice()));
+        priceTextView.setText(String.valueOf(getItem(position).getPrice()));
         quantityTextView.setText(String.valueOf(getItem(position).getQuantity()));
 
         return rowView;
     }
-
-/*    private String getPriceString(int price) {
-        StringBuilder priceString = new StringBuilder(String.valueOf(price));
-
-        int length = priceString.length();
-        for (int i=(length-4); i>=0; i-=3) {
-           priceString.insert(i, ' ');
-        }
-
-        return priceString.toString();
-    }*/
 }
