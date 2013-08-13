@@ -26,6 +26,11 @@ public class ShopActivity extends FragmentActivity {
 
         initViewPager();
         initActionBar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         shopContext = this;
 
@@ -37,6 +42,7 @@ public class ShopActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
         ShopDaoFactory.getShopDao().terminate();
         shopContext = null;
     }
@@ -64,11 +70,9 @@ public class ShopActivity extends FragmentActivity {
             }
 
             public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-                // hide the given tab
             }
 
             public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-                // probably ignore this event
             }
         };
 

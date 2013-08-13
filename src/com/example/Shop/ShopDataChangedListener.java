@@ -1,4 +1,4 @@
-package com.example.Shop.data;
+package com.example.Shop;
 
 /**
  * Created with IntelliJ IDEA.

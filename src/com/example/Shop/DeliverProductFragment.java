@@ -14,7 +14,6 @@ import android.widget.Spinner;
 import com.example.Shop.data.Product;
 import com.example.Shop.data.ProductType;
 import com.example.Shop.data.ShopDaoFactory;
-import com.example.Shop.data.ShopDataChangedListener;
 
 /**
  * Created with IntelliJ IDEA.

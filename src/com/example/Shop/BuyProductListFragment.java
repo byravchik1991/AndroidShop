@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ListView;
 import com.example.Shop.data.Product;
 import com.example.Shop.data.ShopDaoFactory;
-import com.example.Shop.data.ShopDataChangedListener;
 
 import java.util.ArrayList;
 import java.util.Collections;

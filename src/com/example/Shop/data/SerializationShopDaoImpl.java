@@ -40,6 +40,9 @@ public class SerializationShopDaoImpl extends FileShopDaoImpl {
             outputStream.writeObject(shop);
             outputStream.close();
 
+            shop.getProducts().clear();
+            shop = null;
+
         } catch (Exception e) {
             e.printStackTrace();
         }

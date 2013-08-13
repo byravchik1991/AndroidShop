@@ -55,6 +55,9 @@ public class JsonShopDaoImpl extends FileShopDaoImpl {
             writer.write(createJsonShop(shop).toString());
             writer.close();
 
+            shop.getProducts().clear();
+            shop = null;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
